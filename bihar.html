@@ -1,0 +1,500 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bihar Pride - Complete History Timeline</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&amp;family=Crimson+Text:ital,wght@0,400;0,600;1,400&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    .font-cinzel { font-family: 'Cinzel', serif; }
+    .font-crimson { font-family: 'Crimson Text', serif; }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); }
+      50% { box-shadow: 0 0 20px 5px rgba(212, 175, 55, 0.2); }
+    }
+    
+    .timeline-card {
+      animation: fadeInUp 0.5s ease-out forwards;
+      opacity: 0;
+    }
+    
+    .timeline-dot {
+      animation: pulse-glow 2s ease-in-out infinite;
+    }
+    
+    .card-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease-out, padding 0.3s ease;
+    }
+    
+    .card-content.expanded {
+      max-height: 600px;
+    }
+    
+    .period-badge {
+      transition: all 0.3s ease;
+    }
+    
+    .period-badge:hover {
+      transform: scale(1.05);
+    }
+    
+    .timeline-line {
+      background: linear-gradient(180deg, 
+        #ffd700 0%, 
+        #ff6b35 20%,
+        #1e3a5f 40%, 
+        #228b22 60%,
+        #8b0000 80%,
+        #d4af37 100%
+      );
+    }
+    
+    .scroll-indicator {
+      animation: bounce 2s infinite;
+    }
+    
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-10px); }
+      60% { transform: translateY(-5px); }
+    }
+
+    .pride-badge {
+      background: linear-gradient(135deg, #ffd700, #ff6b35);
+      color: #000;
+      font-weight: bold;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full">
+  <div id="app-wrapper" class="h-full w-full overflow-auto" style="background: linear-gradient(135deg, #0a0a1a 0%, #1a0a3a 50%, #0f0f23 100%);"><!-- Header Section -->
+   <header class="text-center py-8 px-4 relative">
+    <div class="absolute inset-0 opacity-5" style="background-image: url('data:image/svg+xml,%3Csvg width=\" 80\ height="\&quot;80\&quot;" viewbox="\&quot;0" 0 80 xmlns="\&quot;http://www.w3.org/2000/svg\&quot;%3E%3Ccircle" cx="\&quot;40\&quot;" cy="\&quot;40\&quot;" r="\&quot;35\&quot;" fill="\&quot;none\&quot;" stroke="\&quot;%23ffd700\&quot;" stroke-width="\&quot;1\&quot;/%3E%3C/svg%3E');&quot;"></div>
+    <div class="relative z-10">
+     <div class="pride-badge inline-block px-4 py-2 rounded-full mb-3 text-sm">
+      🏆 BIHAR PRIDE 🏆
+     </div>
+     <h1 id="timeline-title" class="font-cinzel text-5xl md:text-6xl font-bold mb-3" style="color: #ffd700; text-shadow: 3px 3px 6px rgba(0,0,0,0.7);">The Glory of Bihar</h1>
+     <p id="timeline-subtitle" class="font-crimson text-2xl md:text-3xl italic mb-4" style="color: #ff6b35;">Cradle of Civilizations • Heart of Spirituality • Birthplace of Revolution</p>
+     <p id="intro-text" class="font-crimson text-base max-w-3xl mx-auto leading-relaxed" style="color: #d0d0d0;">Bihar has shaped human civilization like no other place on Earth. Home to Buddha, Mahavira, Aryabhata, and India's greatest freedom fighters. Discover the extraordinary journey that changed the world forever!</p><!-- Period Legend -->
+     <div class="flex flex-wrap justify-center gap-3 mt-8"><button onclick="filterPeriod('all')" class="period-badge px-4 py-2 rounded-full font-cinzel text-sm" style="background: linear-gradient(135deg, #2a2a4a, #1a1a3a); color: #ffd700; border: 2px solid #ffd700;"> ✨ All Eras </button> <button onclick="filterPeriod('ancient')" class="period-badge px-4 py-2 rounded-full font-cinzel text-sm" style="background: linear-gradient(135deg, #8b6914, #654321); color: #fff; border: 2px solid #ffd700;"> 🕉️ Ancient </button> <button onclick="filterPeriod('medieval')" class="period-badge px-4 py-2 rounded-full font-cinzel text-sm" style="background: linear-gradient(135deg, #1a2a3a, #0d1a2a); color: #87ceeb; border: 2px solid #87ceeb;"> 🏰 Medieval </button> <button onclick="filterPeriod('colonial')" class="period-badge px-4 py-2 rounded-full font-cinzel text-sm" style="background: linear-gradient(135deg, #3a2a1a, #2a1a0a); color: #ff6b35; border: 2px solid #ff6b35;"> 🔥 Colonial </button> <button onclick="filterPeriod('modern')" class="period-badge px-4 py-2 rounded-full font-cinzel text-sm" style="background: linear-gradient(135deg, #1a3a1a, #0d2a0d); color: #ff6b35; border: 2px solid #ff6b35;"> 🇮🇳 Modern </button>
+     </div>
+    </div>
+    <div class="scroll-indicator mt-8">
+     <svg class="w-6 h-6 mx-auto" style="color: #ffd700;" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+     </svg>
+    </div>
+   </header><!-- Timeline Container -->
+   <main class="relative max-w-5xl mx-auto px-4 pb-20"><!-- Central Timeline Line -->
+    <div class="absolute left-1/2 transform -translate-x-1/2 w-1 timeline-line rounded-full" style="top: 0; bottom: 0;"></div><!-- Timeline Events -->
+    <div id="timeline-events" class="relative"><!-- Events rendered by JavaScript -->
+    </div>
+   </main><!-- Footer -->
+   <footer class="text-center py-8 font-cinzel text-lg" style="color: #ffd700; background: rgba(0,0,0,0.5); border-top: 2px solid #ffd700;">
+    <p class="mb-2">🌟 BIHAR - THE PRIDE OF HUMANITY 🌟</p>
+    <p class="font-crimson text-sm" style="color: #d0d0d0;">What began in Bihar changed the world forever</p>
+   </footer>
+  </div>
+  <script>
+    const defaultConfig = {
+      timeline_title: "The Glory of Bihar",
+      timeline_subtitle: "Cradle of Civilizations • Heart of Spirituality • Birthplace of Revolution",
+      intro_text: "Bihar has shaped human civilization like no other place on Earth. Home to Buddha, Mahavira, Aryabhata, and India's greatest freedom fighters. Discover the extraordinary journey that changed the world forever!",
+      primary_color: "#ffd700",
+      surface_color: "#0a0a1a",
+      text_color: "#ff6b35",
+      accent_color: "#1e3a5f"
+    };
+
+    let config = { ...defaultConfig };
+    let currentFilter = 'all';
+    let expandedCards = new Set();
+
+    const timelineData = [
+      {
+        id: 1,
+        year: "599 BCE",
+        title: "Mahavira's Birth",
+        period: "ancient",
+        emoji: "🕉️",
+        summary: "Vardhamana Mahavira born - the 24th Tirthankara of Jainism",
+        details: "Vardhamana Mahavira was born in Kundagrama, Bihar as the 24th Tirthankara (spiritual teacher) of Jainism. He preached non-violence (ahimsa), asceticism, and spiritual liberation. His revolutionary teachings emphasized compassion for all living beings and became the foundation of Jainism, one of the world's major religions.",
+        funFact: "Mahavira attained enlightenment (Kevalajnana) at age 42 in Bihar and spent 30 years spreading his message of peace and non-violence to all corners of the subcontinent!",
+        image: "🙏"
+      },
+      {
+        id: 2,
+        year: "563 BCE",
+        title: "Buddha's Birth",
+        period: "ancient",
+        emoji: "🌸",
+        summary: "Siddhartha Gautama born in Lumbini near Bihar",
+        details: "Siddhartha Gautama was born in Lumbini (near Bihar's border). He would later attain enlightenment in Bodh Gaya, Bihar, transforming into Gautama Buddha—the 'Awakened One' and founder of Buddhism. This marked a spiritual revolution that transformed Bihar into the spiritual heart of Asia.",
+        funFact: "Buddha and Mahavira were contemporaries in Bihar! Two great spiritual leaders revolutionized human consciousness simultaneously in the same region.",
+        image: "🌳"
+      },
+      {
+        id: 3,
+        year: "528 BCE",
+        title: "Buddha's Enlightenment in Bodh Gaya",
+        period: "ancient",
+        emoji: "💡",
+        summary: "The Awakening - Buddha attains Bodhi under the sacred tree",
+        details: "After years of rigorous meditation and spiritual seeking, Siddhartha Gautama attained supreme enlightenment (Bodhi) while meditating under the Bodhi tree in Bodh Gaya, Bihar. This monumental event transformed him into Buddha and established Bihar as the eternal spiritual center of Buddhism. Today, millions visit Bodh Gaya annually.",
+        funFact: "The Bodhi tree in Bodh Gaya still stands after 2,500+ years! It's over 80 feet tall and cuttings from this tree have been planted in Buddhist temples worldwide.",
+        image: "🧘"
+      },
+      {
+        id: 4,
+        year: "476 BCE",
+        title: "Mahavira Attains Enlightenment",
+        period: "ancient",
+        emoji: "✨",
+        summary: "Mahavira becomes Kevalin - all-knowing and all-seeing",
+        details: "After 12 years of rigorous meditation and asceticism, Mahavira attained Kevaljnana (supreme knowledge) at Jrimbhikagrama in Bihar. He spent the remaining 30 years of his life spreading Jainism, which emphasized vegetarianism, non-violence, and liberation from the cycle of birth and death.",
+        funFact: "Mahavira's doctrine of non-violence influenced spiritual leaders for centuries, including Mahatma Gandhi 2,400 years later!",
+        image: "🌟"
+      },
+      {
+        id: 5,
+        year: "476 BCE",
+        title: "Aryabhata - Mathematical Genius",
+        period: "ancient",
+        emoji: "🔢",
+        summary: "Aryabhata born in Pataliputra, Bihar - Inventor of Zero & Decimal System",
+        details: "Aryabhata, one of history's greatest mathematicians and astronomers, was born in Pataliputra (modern Patna), Bihar. He invented the concept of zero and the decimal system, calculated π accurately (3.1416), explained Earth's rotation 1,000 years before Copernicus, and created solar year calculations. His contributions revolutionized mathematics globally.",
+        funFact: "Without Aryabhata's zero and decimal system, modern mathematics, computers, and all technology would not exist! He is Bihar's gift to human civilization.",
+        image: "📐"
+      },
+      {
+        id: 6,
+        year: "261 BCE",
+        title: "Emperor Ashoka's Transformation",
+        period: "ancient",
+        emoji: "👑",
+        summary: "Mauryan Emperor Ashoka embraces Buddhism and transforms Bihar",
+        details: "Emperor Ashoka, the greatest Mauryan ruler, witnessed the horrors of war and embraced Buddhism. He made Pataliputra (Patna) his capital and built magnificent monasteries, stupas, and stone pillars throughout Bihar. He sent Buddhist missionaries to spread the dharma across Asia, making Bihar the spiritual capital of the Buddhist world.",
+        funFact: "Ashoka's edicts on stone pillars are among the oldest written records in India. The lion capital from Sarnath is now India's national emblem and appears on our currency!",
+        image: "🏛️"
+      },
+      {
+        id: 7,
+        year: "5th-12th Century CE",
+        title: "Nalanda University - World's First University",
+        period: "ancient",
+        emoji: "📚",
+        summary: "Bihar becomes center of global learning with 10,000+ students",
+        details: "Nalanda University, located in Bihar, was the world's first residential university. It hosted over 10,000 students and 2,000 renowned teachers from across the world. Scholars from China, Japan, Korea, Tibet, Thailand, and Southeast Asia came to study Buddhism, philosophy, mathematics, medicine, logic, and linguistics. It was humanity's first 'world university'!",
+        funFact: "Chinese traveler Xuanzang studied at Nalanda for 12 years, bringing back 657 Buddhist texts that profoundly influenced civilization across Asia!",
+        image: "🎓"
+      },
+      {
+        id: 8,
+        year: "8th-13th Century CE",
+        title: "Mithila Art - UNESCO World Heritage",
+        period: "medieval",
+        emoji: "🎨",
+        summary: "Mithila paintings - Ancient artistic tradition of Bihar's women",
+        details: "The Mithila region of Bihar developed a unique and breathtakingly beautiful ancient art form—Mithila/Madhubani painting. This art form features intricate geometric patterns, vibrant natural colors, and sacred depictions of gods, nature, and daily life. Created primarily by women and passed down through generations, it represents Bihar's artistic genius.",
+        funFact: "Mithila paintings are created without rulers or sketches—purely from intuition and memory! UNESCO recognized Mithila art as an Intangible Cultural Heritage of Humanity in 2021.",
+        image: "🎭"
+      },
+      {
+        id: 9,
+        year: "1235 CE",
+        title: "Fall of Nalanda - A Global Tragedy",
+        period: "medieval",
+        emoji: "🔥",
+        summary: "Afghan invader Bakhtiyar Khilji destroys the legendary university",
+        details: "Turkish invader Bakhtiyar Khilji attacked and destroyed Nalanda University, burning its legendary library containing thousands of irreplaceable manuscripts. Scholars fled to Tibet, Nepal, and Southeast Asia, preserving knowledge globally. Though Nalanda fell, its legacy continued through dispersed scholars across Asia.",
+        funFact: "The fall of Nalanda marked a turning point in Asian history—Buddhist scholars migrating to Tibet, Mongolia, and Southeast Asia spread knowledge globally and preserved it for centuries!",
+        image: "⚔️"
+      },
+      {
+        id: 10,
+        year: "1755-1900",
+        title: "Birsa Munda - The Tribal Savior",
+        period: "medieval",
+        emoji: "🛡️",
+        summary: "Birsa Munda leads Munda tribe rebellion against colonial exploitation",
+        details: "Birsa Munda (1875-1900) was a legendary tribal leader from Bihar who fought against British colonial exploitation and forced Christian conversions. He led the Munda Rebellion (1899-1900), uniting tribal communities with a revolutionary movement. Though imprisoned and died in jail, he became an immortal symbol of tribal resistance and indigenous pride.",
+        funFact: "Birsa Munda is revered as a deity by tribal communities in Bihar. His birthday (November 15) is celebrated as Birsa Munda Jayanti nationally!",
+        image: "⚔️"
+      },
+      {
+        id: 11,
+        year: "1859-1860",
+        title: "Neel Rebellion - Farmers' Uprising",
+        period: "colonial",
+        emoji: "🌾",
+        summary: "Peasants rise against indigo planters' exploitation in Champaran",
+        details: "Bihar's indigo farmers rebelled against exploitative practices by British and landlord-backed indigo planters. The Neel (indigo) Rebellion saw peasants destroying plantations and demanding fair treatment. This uprising demonstrated organized peasant resistance and inspired later independence movements across India.",
+        funFact: "The Neel Rebellion showed that peasants could challenge colonial authority! This inspired the later Champaran Satyagraha and entire independence struggle.",
+        image: "🚩"
+      },
+      {
+        id: 12,
+        year: "1917",
+        title: "Champaran Satyagraha - Gandhi's First Battle",
+        period: "colonial",
+        emoji: "✊",
+        summary: "Mahatma Gandhi launches his first satyagraha in Champaran, Bihar",
+        details: "Mahatma Gandhi came to Champaran district in Bihar to support indigo farmers exploited by British planters. His non-violent resistance movement (satyagraha) brought national attention and became the turning point in India's independence struggle. This was Gandhi's FIRST major satyagraha in India—Bihar started the revolution!",
+        funFact: "Champaran Satyagraha proved that non-violence could overcome oppression! It inspired the entire independence movement and made Gandhi a national leader.",
+        image: "🕊️"
+      },
+      {
+        id: 13,
+        year: "1920s",
+        title: "Chandrashekhar Azad - The Legend",
+        period: "colonial",
+        emoji: "🗡️",
+        summary: "Bihar's greatest revolutionary - never surrendered to British",
+        details: "Chandrashekhar Azad (1906-1931) was one of India's greatest revolutionaries who operated extensively in Bihar. He famously took a vow of 'Azadi' (freedom) and declared: 'Azaad hoon aur azaad rahungi' (I am free and will remain free). He fought fearlessly against British rule and died in a shootout rather than surrender.",
+        funFact: "Azad shot himself in 1931 rather than be captured by British police. He remains an immortal symbol of Indian freedom and is worshipped as a national hero!",
+        image: "🎯"
+      },
+      {
+        id: 14,
+        year: "1920s-1940s",
+        title: "Jayaprakash Narayan - JP the Visionary",
+        period: "colonial",
+        emoji: "💭",
+        summary: "JP - Revolutionary freedom fighter and social reformer",
+        details: "Jayaprakash Narayan (JP, 1902-1979), born in Bihar, was a freedom fighter and visionary social reformer. After independence, he launched his revolutionary 'Sampoorna Kranti' (Total Revolution) movement against corruption and for social justice. His idealism inspired lakhs of young people across India.",
+        funFact: "JP's anti-corruption movement inspired Anna Hazare's Lokpal movement decades later. He remains a symbol of idealism and social justice!",
+        image: "🔥"
+      },
+      {
+        id: 15,
+        year: "1886-1963",
+        title: "Rajendra Prasad - First President of India",
+        period: "modern",
+        emoji: "👨‍⚖️",
+        summary: "Bihar's Rajendra Prasad becomes India's First President",
+        details: "Rajendra Prasad, born in Siwan, Bihar in 1884, was elected India's first President (1950-1962). A freedom fighter, scholar, and statesman, he served the longest presidential tenure (12 years). Deeply committed to education, rural development, and social reform, he shaped independent India's governance and values.",
+        funFact: "Rajendra Prasad was called 'Rashtrapati' with deep respect. He served as President for 12 years—the longest tenure of any Indian President!",
+        image: "👑"
+      },
+      {
+        id: 16,
+        year: "1947",
+        title: "India's Independence - Bihar's Revolution",
+        period: "modern",
+        emoji: "🇮🇳",
+        summary: "India gains freedom; Bihar's leaders shape the nation",
+        details: "India achieved independence on August 15, 1947. Bihar played a monumental role with revolutionary leaders like Rajendra Prasad, Jayaprakash Narayan, Chandrashekhar Azad, and countless freedom fighters. Bihar produced the most freedom fighters per capita and leaders who shaped independent India's constitution and governance.",
+        funFact: "Bihar contributed more freedom fighters to India's independence struggle than any other state! The state's revolutionary spirit ignited the nation.",
+        image: "🎆"
+      },
+      {
+        id: 17,
+        year: "2000 CE",
+        title: "Modern Bihar - Living Heritage",
+        period: "modern",
+        emoji: "🌟",
+        summary: "Bihar continues as India's spiritual and cultural heart",
+        details: "Bihar remains the center of global Buddhist pilgrimage with Bodh Gaya attracting over 1.5 million pilgrims annually. Mithila art thrives internationally. Bihar's historical sites like Nalanda ruins, Rajgir, and Vaishali inspire scholars worldwide. The state preserves its 3,000-year legacy while embracing modernity.",
+        funFact: "Bodh Gaya temple receives pilgrims from 150+ countries annually. Bihar's spiritual significance continues to grow in the modern world!",
+        image: "🏛️"
+      },
+      {
+        id: 18,
+        year: "Present",
+        title: "Bihar's Eternal Legacy",
+        period: "modern",
+        emoji: "💎",
+        summary: "Bihar - The Pride of India, Cradle of Civilizations",
+        details: "Bihar stands as humanity's crown jewel of history, spirituality, and revolution. Home to Buddhism and Jainism's holiest sites, birthplace of zero and decimal system, center of the world's first university, origin of India's greatest freedom fighters. Bihar's contributions to human civilization are unmatched and will be eternal.",
+        funFact: "What began in Bihar—Buddhism, mathematics, democracy, non-violence, and revolution—shaped and continues to shape the entire world! Bihar's pride IS humanity's heritage!",
+        image: "👑"
+      }
+    ];
+
+    function getPeriodColors(period) {
+      const colors = {
+        ancient: { bg: 'linear-gradient(135deg, #8b6914, #654321)', border: '#ffd700', accent: '#ffd700', text: '#fff' },
+        medieval: { bg: 'linear-gradient(135deg, #1a2a3a, #0d1a2a)', border: '#87ceeb', accent: '#1e3a5f', text: '#87ceeb' },
+        colonial: { bg: 'linear-gradient(135deg, #3a2a1a, #2a1a0a)', border: '#ff6b35', accent: '#8b0000', text: '#ff8c00' },
+        modern: { bg: 'linear-gradient(135deg, #1a3a1a, #0d2a0d)', border: '#ff6b35', accent: '#228b22', text: '#ff6b35' }
+      };
+      return colors[period];
+    }
+
+    function toggleCard(id) {
+      if (expandedCards.has(id)) {
+        expandedCards.delete(id);
+      } else {
+        expandedCards.add(id);
+      }
+      renderTimeline();
+    }
+
+    function filterPeriod(period) {
+      currentFilter = period;
+      expandedCards.clear();
+      renderTimeline();
+    }
+
+    function renderTimeline() {
+      const container = document.getElementById('timeline-events');
+      const filteredData = currentFilter === 'all' 
+        ? timelineData 
+        : timelineData.filter(event => event.period === currentFilter);
+      
+      container.innerHTML = filteredData.map((event, index) => {
+        const colors = getPeriodColors(event.period);
+        const isExpanded = expandedCards.has(event.id);
+        const isLeft = index % 2 === 0;
+        const delay = index * 0.08;
+        
+        return `
+          <div class="timeline-card relative mb-8 ${isLeft ? 'pr-4 md:pr-0 md:mr-auto md:pr-8' : 'pl-4 md:pl-0 md:ml-auto md:pl-8'} md:w-1/2"
+               style="animation-delay: ${delay}s;"
+               data-period="${event.period}">
+            
+            <!-- Timeline Dot -->
+            <div class="timeline-dot absolute top-6 ${isLeft ? 'right-0 md:-right-4' : 'left-0 md:-left-4'} w-8 h-8 rounded-full z-10 flex items-center justify-center text-lg"
+                 style="background: ${colors.accent}; border: 4px solid ${colors.border}; box-shadow: 0 0 15px ${colors.border}40;">
+              ${event.emoji}
+            </div>
+            
+            <!-- Card -->
+            <div class="relative rounded-xl overflow-hidden cursor-pointer transform transition-all duration-300 hover:scale-[1.03] hover:shadow-2xl"
+                 style="background: ${colors.bg}; border: 2px solid ${colors.border}; box-shadow: 0 4px 25px rgba(0,0,0,0.5);"
+                 onclick="toggleCard(${event.id})">
+              
+              <!-- Card Header -->
+              <div class="p-5">
+                <div class="flex items-center justify-between mb-3">
+                  <span class="font-cinzel text-xs font-bold px-3 py-1 rounded-full" 
+                        style="background: ${colors.accent}; color: ${colors.text};">
+                    ${event.year}
+                  </span>
+                  <span class="text-3xl drop-shadow-lg">${event.emoji}</span>
+                </div>
+                
+                <h3 class="font-cinzel text-xl font-bold mb-2" style="color: ${colors.text};">
+                  ${event.title}
+                </h3>
+                <p class="font-crimson text-sm leading-relaxed" style="color: #b0b0b0;">
+                  ${event.summary}
+                </p>
+                
+                <!-- Expand Indicator -->
+                <div class="flex items-center justify-center mt-4 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}">
+                  <svg class="w-6 h-6" style="color: ${colors.border};" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                  </svg>
+                </div>
+              </div>
+              
+              <!-- Expandable Content -->
+              <div class="card-content ${isExpanded ? 'expanded' : ''}" style="background: rgba(0,0,0,0.4);">
+                <div class="p-5">
+                  <div class="mb-4">
+                    <p class="font-crimson text-sm leading-relaxed mb-4" style="color: #d0d0d0;">
+                      ${event.details}
+                    </p>
+                  </div>
+                  
+                  <div class="rounded-lg p-4" style="background: ${colors.accent}30; border-left: 4px solid ${colors.border};">
+                    <p class="font-cinzel text-sm font-bold mb-2" style="color: ${colors.text};">
+                      💡 Fun Fact
+                    </p>
+                    <p class="font-crimson text-sm italic leading-relaxed" style="color: #c0c0c0;">
+                      ${event.funFact}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    async function onConfigChange(cfg) {
+      const customFont = cfg.font_family || defaultConfig.font_family || 'Cinzel';
+      
+      document.getElementById('timeline-title').textContent = cfg.timeline_title || defaultConfig.timeline_title;
+      document.getElementById('timeline-title').style.color = cfg.primary_color || defaultConfig.primary_color;
+      if (cfg.font_family) {
+        document.getElementById('timeline-title').style.fontFamily = `${customFont}, serif`;
+      }
+      
+      document.getElementById('timeline-subtitle').textContent = cfg.timeline_subtitle || defaultConfig.timeline_subtitle;
+      document.getElementById('timeline-subtitle').style.color = cfg.text_color || defaultConfig.text_color;
+      
+      document.getElementById('intro-text').textContent = cfg.intro_text || defaultConfig.intro_text;
+    }
+
+    function mapToCapabilities(cfg) {
+      return {
+        recolorables: [
+          {
+            get: () => cfg.surface_color || defaultConfig.surface_color,
+            set: (value) => { cfg.surface_color = value; window.elementSdk.setConfig({ surface_color: value }); }
+          },
+          {
+            get: () => cfg.text_color || defaultConfig.text_color,
+            set: (value) => { cfg.text_color = value; window.elementSdk.setConfig({ text_color: value }); }
+          },
+          {
+            get: () => cfg.primary_color || defaultConfig.primary_color,
+            set: (value) => { cfg.primary_color = value; window.elementSdk.setConfig({ primary_color: value }); }
+          }
+        ],
+        borderables: [],
+        fontEditable: {
+          get: () => cfg.font_family || defaultConfig.font_family || 'Cinzel',
+          set: (value) => { cfg.font_family = value; window.elementSdk.setConfig({ font_family: value }); }
+        },
+        fontSizeable: undefined
+      };
+    }
+
+    function mapToEditPanelValues(cfg) {
+      return new Map([
+        ["timeline_title", cfg.timeline_title || defaultConfig.timeline_title],
+        ["timeline_subtitle", cfg.timeline_subtitle || defaultConfig.timeline_subtitle],
+        ["intro_text", cfg.intro_text || defaultConfig.intro_text]
+      ]);
+    }
+
+    // Initialize
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+    
+    renderTimeline();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9cae529b205d3b2d',t:'MTc3MDU4NzIxNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
